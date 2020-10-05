@@ -1,44 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
 <html ng-App="DIApp">
 
 <head>
-    <title>Lunch Checker</title>
+    <title>Shopping List Check Off</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/bootstrap.min.css">
-    <style>
+    <!-- <style>
         .message {
             font-size: 1.3em;
             font-weight: bold;
         }
-    </style>
-    <meta charset="utf-8">
+    </style> -->
+    <!-- <meta charset="utf-8"> -->
     <script src="js/angular.min.js"></script>
     <script src="js/app.js"></script>
     <style>
-        body {
-            font-size: 1.3em;
+        .error {
+            font-weight: bold;
+            color: red;
+            font-size: 1.2em;
+        }
+        
+        li {
+            margin-bottom: 7px;
+            font-size: 1.2em;
+        }
+        
+        li>button {
+            margin-left: 6px;
+        }
+        
+        button>span {
+            color: green;
         }
     </style>
-    <title>Name Calculator</title>
+    <!-- <title>Name Calculator</title> -->
 </head>
 
 <body>
-    <div ng-controller="DIController">
+    <div class="container">
+        <h1>Shopping List Check Off</h1>
+
+        <div class="row">
+            <div ng-controller="DIControllerShowList as list">
 
 
 
-        <div class="container">
-            <h1>Lunch Checker</h1>
 
-            <div class="form-group">
+                <!-- <div class="container">
+                            <h1>Lunch Checker</h1> -->
+
+                <!-- <div class="container">
                 <input id="lunch-menu" type="text" ng-model="name" placeholder="list comma separated dishes you usually have for lunch" class="form-control">
             </div>
             <div class="form-group">
                 <button class="btn btn-default" ng-click="onClickMe()">Check If Too Much</button>
+            </div> -->
+
+                <div ng-controller="DIController as list2" ng-init="list2.Buy2()">
+
+
+                    <!-- To Buy List -->
+                    <div class="col-md-6">
+                        <h2>To Buy:</h2>
+                        <ul>
+                            <li ng-repeat="item in list.items">Buy {{ item.quantity }} {{ item.name }}<button class="btn btn-default" ng-click="list.Buy( $index);list2.Buy2();"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+
+                        </ul>
+                        <div ng-if="list.errorMessage" class="error">Error: {{list.errorMessage}}</div>
+
+                    </div>
+
+                    <!-- Already Bought List -->
+                    <div class="col-md-6">
+                        <h2>Already Bought:</h2>
+                        <ul>
+                            <li ng-repeat="ite in list2.items2">Bought {{ ite.quantity }} {{ ite.name }}</li>
+                        </ul>
+                        <div ng-if="list2.errorMessage2" class="error">Error: {{list2.errorMessage2}}</div>
+
+                    </div>
+                </div>
+
             </div>
-            <div class="form-group message">
-                <input type="text" ng-model="message"></input>
-            </div>
+
+
         </div>
     </div>
 </body>

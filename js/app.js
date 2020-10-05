@@ -3,30 +3,98 @@
 
     angular.module('DIApp', [])
 
-    .controller('DIController', DIController);
+    .controller('DIController', DIController)
+        .controller('DIControllerShowList', DIControllerShowList)
+        .service('ListService', ListService);
+    DIControllerShowList.$inject = ['ListService'];
 
-    function DIController($scope, $filter) {
-        $scope.name = '';
-        $scope.message = "";
-        $scope.onClickMe = function() {
-            var nameArr = $scope.name.split(',');
-            if ($scope.name == '') {
+    function DIControllerShowList(ListService) {
+        var list = this;
 
-                $scope.message = "Please enter data first";
-
-            } else if (nameArr.length <= 3 && nameArr.length >= 1) {
-                $scope.message = "Enjoy";
-
-            } else if (nameArr.length > 3) {
-
-                $scope.message = "Too Much";
+        list.items = ListService.getItems();
+        list.Buy = function(itemIndex) {
+            try {
+                ListService.Buy(itemIndex);
+                list.errorMessage = "";
+            } catch (error) {
+                list.errorMessage = error.message;
             }
+        }
+    }
+
+    function DIController(ListService) {
+        var list2 = this;
+        list2.Buy2 = function() {
+            try {
+                list2.items2 = ListService.getItems2();
+                list2.errorMessage2 = "";
+            } catch (error) {
+                list2.errorMessage2 = error.message;
+            }
+        };
+
+    }
+
+    function ListService() {
+        var service = this;
+        var items2 = [];
+        var items = [{
+            quantity: 8,
+            name: 'Cookies'
+        }, {
+            quantity: 22,
+            name: 'biscuit'
+        }, {
+            quantity: 72,
+            name: 'bread'
+        }, {
+            quantity: 45,
+            name: 'paisties'
+        }, {
+            quantity: 2,
+            name: 'brownies'
+        }, {
+            quantity: 16,
+            name: 'cakes'
+        }];
+        service.getItems = function() {
+
+            return items;
 
         };
 
+        service.Buy = function(itemIndex) {
 
 
+            if (items2.length != items.length) {
+                if (items2.indexOf(items[itemIndex]) == -1) {
+                    items2.push(items[itemIndex]);
+                } else {
+                    throw new Error("Already  bought!");
+                }
+            } else {
+                throw new Error("Everything is bought!");
+            }
+
+
+
+        };
+
+        service.getItems2 = function() {
+
+            if (items2.length != 0) {
+
+                return items2;
+            } else {
+                throw new Error("Nothing bought yet.");
+            }
+
+        };
     }
+
+
+
+
 
 
 })();
