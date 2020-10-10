@@ -64,14 +64,12 @@
         };
 
         service.Buy = function(itemIndex) {
+            items2.push(items[itemIndex]);
+            items.splice(itemIndex, 1);
+
+            if (items.length != 0) {
 
 
-            if (items2.length != items.length) {
-                if (items2.indexOf(items[itemIndex]) == -1) {
-                    items2.push(items[itemIndex]);
-                } else {
-                    throw new Error("Already  bought!");
-                }
             } else {
                 throw new Error("Everything is bought!");
             }
